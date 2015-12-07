@@ -4,9 +4,11 @@ class Graph
   Axis axis;
   ArrayList<Integer> dataset1;
   ArrayList<Integer> dataset2;
+  ArrayList<Integer> data;
   ArrayList<Integer> names;
   int max;
   int min;
+  int numOfDatasets;
   float borderW = width*0.1f; 
   float borderH;
   float graphW;
@@ -14,7 +16,6 @@ class Graph
   float rectWidth;
   color c1;
   color c2;
-  color[] carray;
   String title;
   
   //Constructors for Graph class
@@ -46,20 +47,21 @@ class Graph
     this.dataset1.addAll(data1);
     this.dataset2.addAll(data2);
     this.names.addAll(names);
+    this.numOfDatasets = 2;
     this.c1 = c1;
     this.c2 = c2;
   }
   
   
   //Constructor that uses an array of colours to draw the graph
-  Graph(String title, ArrayList<Integer> data, ArrayList<Integer> names, int max, int min, float borderW, float borderH, color[] carray)
+  Graph(String title, ArrayList<Integer> data, ArrayList<Integer> names, int max, int min, float borderW, float borderH, color c)
   {
     this(title, data.size(), max, min, borderW, borderH);
-    this.dataset1 = new ArrayList<Integer>();
+    this.data = new ArrayList<Integer>();
     this.names = new ArrayList<Integer>();
-    this.dataset1.addAll(data);
+    this.data.addAll(data);
     this.names.addAll(names);
-    this.carray = carray;
+    this.c1 = c;
   }
   
   //Method to draw a bar chart using the data input
@@ -72,21 +74,21 @@ class Graph
     text(title, width/2, borderH*0.5f);
     stroke(255);
     //For each element of data
-    for(int i=0; i<dataset1.size(); i++)
+    for(int i=0; i<data.size(); i++)
     {
       //Use the map method to determine the scale of the bar relevant to the graph width and height
-      float x = map(i, 0, dataset1.size(), borderW, borderW+graphW);
-      float y = map(dataset1.get(i), min, max, height-borderH, borderH);
+      float x = map(i, 0, data.size(), borderW, borderW+graphW);
+      float y = map(data.get(i), min, max, height-borderH, borderH);
       
       //Each bar has its own colour
-      fill(carray[i]);
+      fill(255, 0, 0);
       //Draw the bar
       rect(x, y, rectWidth, (height-borderH)-y);
     }//end for 
     
     
     //Create a new axis for the bar chart
-    axis = new Axis(dataset1, names, max, min, borderW, borderH, rectWidth);
+    axis = new Axis(data, names, max, min, borderW, borderH, rectWidth);
     
     //Draw the axis for the bar chart
     axis.drawAxisLines();

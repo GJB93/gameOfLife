@@ -6,6 +6,7 @@ ArrayList<Integer> totalDeaths;
 ArrayList<Integer> totalBirths;
 ArrayList<Integer> totalOverC;
 ArrayList<Integer> totalLonl;
+ArrayList<Integer> lonlOverC;
 ArrayList<Integer> totalSurv;
 ArrayList<Integer> genDeaths;
 ArrayList<Integer> genBirths;
@@ -15,6 +16,7 @@ ArrayList<Integer> genSurv;
 ArrayList<Integer> generation;
 
 Graph deathGraph;
+Graph vsGraph;
 
 float borderW, borderH;
 
@@ -43,8 +45,9 @@ void setup()
   
   totalDeaths = new ArrayList<Integer>();
   totalBirths = new ArrayList<Integer>();
-  totalOverC = new ArrayList<Integer>();
-  totalLonl = new ArrayList<Integer>();
+  lonlOverC = new ArrayList<Integer>();
+  lonlOverC.add(0);
+  lonlOverC.add(0);
   totalSurv = new ArrayList<Integer>();
   genDeaths = new ArrayList<Integer>();
   genBirths = new ArrayList<Integer>();
@@ -74,6 +77,12 @@ void draw()
       deathGraph.drawTrendLine();
       break;
     }
+    
+    case 2:
+    {
+      vsGraph.drawBarChart();
+      break;
+    }
   }
   if(!board.end)
   {
@@ -94,8 +103,8 @@ void draw()
         maxDB = totalBirths.get(0);
       }
     }
-    totalOverC.add(board.overcrowding);
-    totalLonl.add(board.lonliness);
+    lonlOverC.set(0, board.overcrowding);
+    lonlOverC.set(1, board.lonliness);
     totalSurv.add(board.survive);
     genDeaths.add(board.genDeath);
     genBirths.add(board.genBirth);
@@ -114,16 +123,8 @@ void draw()
     }
     
     deathGraph = new Graph("Deaths", totalDeaths, totalBirths, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0));
+    vsGraph = new Graph("Lonliness vs Overcrowding", lonlOverC, generation, 1000000, 0, borderW, borderH, color(0));
   }
-  fill(100);
-  rect(width*0.20f, height*0.025f, 300, 200);
-  fill(255);
-  text("Generation: " + board.generation, width*0.25f, height*0.05f);
-  fill(255, 0, 0);
-  text("Died of overcrowding: " + board.overcrowding, width*0.25f, height*0.1f);
-  text("Died of lonliness: " + board.lonliness, width*0.25f, height*0.15f);
-  fill(0, 255, 0);
-  text("Born: " + board.birth, width*0.25f, height*0.2f);
 }
 
 void gui()
