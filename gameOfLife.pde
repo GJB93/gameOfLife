@@ -23,7 +23,12 @@ Board board;
 
 void draw()
 {
-  board.render();
+  background(50);
+  switch(mode)
+  {
+    case 0:
+    board.render();
+  }
   if(!board.end)
   {
     board.update();
@@ -62,7 +67,7 @@ void gui()
     .addItem("Total Births vs Deaths", 1)
     .addItem("Births vs Deaths per Gen", 2)
     .setColorLabel(color(255))
-    .activate(1)
+    .activate(0)
     .moveTo(g1)
     ;
   

@@ -8,6 +8,9 @@ class Board
    int genLonliness;
    int birth;
    int genBirth;
+   int death;
+   int genDeath;
+   int survive;
    int genSurvive;
    int generation;
    float cellWidth;
@@ -24,9 +27,11 @@ class Board
      overcrowding = 0;
      lonliness = 0;
      birth = 0;
+     death = 0;
      genOvercrowding = 0;
      genLonliness = 0;
      genBirth = 0;
+     genDeath = 0;
      genSurvive = 0;
      generation = 0;
      cells = new boolean[rows][cols]; 
@@ -65,6 +70,7 @@ class Board
      genOvercrowding = 0;
      genLonliness = 0;
      genBirth = 0;
+     genDeath = 0;
      genSurvive = 0;
      
      for(int row = 0; row < rows; row++)
@@ -81,13 +87,17 @@ class Board
          if(get(row,col) && countLiveCells(row, col) >= 2 && countLiveCells(row, col) <= 3)
          {
            nextCells[row][col] = true;
+           survive++;
            genSurvive++;
          }
          
          if(get(row,col) && countLiveCells(row, col) > 3)
          {
            nextCells[row][col] = false;
+           overcrowding++;
            genOvercrowding++;
+           genDeath++;
+           death++;
          }
          
          if(get(row,col) && countLiveCells(row, col) < 2)
@@ -95,11 +105,13 @@ class Board
            nextCells[row][col] = false;
            lonliness++;
            genLonliness++; 
+           genDeath++;
+           death++;
          }
        }
      }
      
-     if(genBirth == 0 && genOvercrowding == 0 && genLonliness == 0)
+     if(genBirth == 0 && genDeath == 0)
      {
        end = true;
      }
