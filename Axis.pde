@@ -80,7 +80,8 @@ class Axis
   {
     textSize(10);
     textAlign(CENTER, CENTER);
-    
+    text("Lonliness", borderW+(horizontalIncrement/2), (height-borderH)+textIntH);
+    text("Overcrowding", borderW+(horizontalIncrement/2)*3, (height-borderH)+textIntH);
     text("Generation 0 - " + xText.size(), width*0.5f, (height-borderH)+textIntW);
   }
   

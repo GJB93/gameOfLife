@@ -17,6 +17,7 @@ ArrayList<Integer> generation;
 
 Graph deathGraph;
 Graph vsGraph;
+Graph genGraph;
 
 float borderW, borderH;
 
@@ -25,6 +26,8 @@ int minInit=Integer.MAX_VALUE;
 int minDB = minInit;
 int maxDB = maxInit;
 int maxLO = maxInit;
+int minGDB = 0;
+int maxGDB = maxInit;
 
 
 int mode = 0;
@@ -82,7 +85,7 @@ void draw()
     
     case 2:
     {
-      vsGraph.drawBarChart();
+      genGraph.drawTrendLine();
       break;
     }
   }
@@ -91,6 +94,15 @@ void draw()
     board.update();
     totalDeaths.add(board.death);
     totalBirths.add(board.birth);
+    lonlOverC.set(0, board.overcrowding);
+    lonlOverC.set(1, board.lonliness);
+    totalSurv.add(board.survive);
+    genDeaths.add(board.genDeath);
+    genBirths.add(board.genBirth);
+    genOverC.add(board.genOvercrowding);
+    genLonl.add(board.genLonliness);
+    genSurv.add(board.genSurvive);
+    generation.add(board.generation);
     
     if(board.generation == 1)
     {
@@ -105,8 +117,7 @@ void draw()
         maxDB = totalBirths.get(0);
       }
     }
-    lonlOverC.set(0, board.overcrowding);
-    lonlOverC.set(1, board.lonliness);
+    
     if(board.overcrowding > board.lonliness)
     {
       maxLO = board.overcrowding;
@@ -115,13 +126,6 @@ void draw()
     {
       maxLO = board.lonliness;
     }
-    totalSurv.add(board.survive);
-    genDeaths.add(board.genDeath);
-    genBirths.add(board.genBirth);
-    genOverC.add(board.genOvercrowding);
-    genLonl.add(board.genLonliness);
-    genSurv.add(board.genSurvive);
-    generation.add(board.generation);
     
     if(board.death > board.birth)
     {
@@ -132,8 +136,19 @@ void draw()
       maxDB = board.birth;
     }
     
-    deathGraph = new Graph("Deaths", totalDeaths, totalBirths, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0));
+    if(board.genDeath > maxGDB)
+    {
+      maxGDB = board.genDeath;
+    }
+    
+    if(board.genBirth > maxGDB)
+    {
+      maxGDB = board.genBirth;
+    }
+    
+    deathGraph = new Graph("Total Births vs Deaths", totalDeaths, totalBirths, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0));
     vsGraph = new Graph("Lonliness vs Overcrowding", lonlOverC, generation, maxLO, 0, borderW, borderH, color(0));
+    genGraph = new Graph("Births vs Deaths per Generation", genDeaths, genBirths, generation, maxGDB, minGDB, borderW, borderH, color(255, 0, 0), color(0,255,0));
   }
 }
 
