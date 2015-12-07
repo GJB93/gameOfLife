@@ -109,15 +109,7 @@ class Axis
       rotate(-PI/2);
       fill(255);
       //Write the rotated text underneath the x axis ticks
-      if((xText.get(i)).length() > 3)
-      {
-        text((xText.get(i)).substring(0,4), 0, horizontalIncrement*0.5);
-      }
-      else
-      {
-        text((xText.get(i)).substring(0,3), 0, horizontalIncrement*0.5);
-      }
-      
+      text("Gen " + (xText.get(i)), 0, 0);
       //Pop the transformation matrix off the stack
       popMatrix();
     }//end for
@@ -137,6 +129,7 @@ class Axis
     }//end for
   }
   
+  /*
   //Draws an axis for a slopegraph
   void drawSlopeAxis()
   {
@@ -151,4 +144,5 @@ class Axis
     text("02-08 Average Sold", x1, borderH*0.7f);
     text("09-15 Average Sold", x2, borderH*0.7f);
   }
+  */
 }

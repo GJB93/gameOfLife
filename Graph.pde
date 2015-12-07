@@ -35,11 +35,11 @@ class Graph
   }
   
   //Constructor that only uses a single colour for the graph
-  Graph(String title, ArrayList<Integer> data, ArrayList<String> names, int max, int min, float borderW, float borderH, color c)
+  Graph(String title, ArrayList<Integer> data, ArrayList<Integer> names, int max, int min, float borderW, float borderH, color c)
   {
     this(title, data.size(), max, min, borderW, borderH);
     this.data = new ArrayList<Integer>();
-    this.names = new ArrayList<String>();
+    this.names = new ArrayList<Integer>();
     this.data.addAll(data);
     this.names.addAll(names);
     this.c = c;
@@ -47,11 +47,11 @@ class Graph
   
   
   //Constructor that uses an array of colours to draw the graph
-  Graph(String title, ArrayList<Integer> data, ArrayList<String> names, int max, int min, float borderW, float borderH, color[] carray)
+  Graph(String title, ArrayList<Integer> data, ArrayList<Integer> names, int max, int min, float borderW, float borderH, color[] carray)
   {
     this(title, data.size(), max, min, borderW, borderH);
     this.data = new ArrayList<Integer>();
-    this.names = new ArrayList<String>();
+    this.names = new ArrayList<Integer>();
     this.data.addAll(data);
     this.names.addAll(names);
     this.carray = carray;
