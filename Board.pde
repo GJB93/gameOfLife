@@ -3,9 +3,12 @@ class Board
    int rows;
    int cols;
    int overcrowding;
+   int genOvercrowding;
    int lonliness;
+   int genLonliness;
    int birth;
-   int survive;
+   int genBirth;
+   int genSurvive;
    int generation;
    float cellWidth;
    float cellHeight;
@@ -20,7 +23,10 @@ class Board
      overcrowding = 0;
      lonliness = 0;
      birth = 0;
-     survive = 0;
+     genOvercrowding = 0;
+     genLonliness = 0;
+     genBirth = 0;
+     genSurvive = 0;
      generation = 0;
      cells = new boolean[rows][cols]; 
      nextCells = new boolean[rows][cols];
@@ -54,6 +60,11 @@ class Board
    
    void update()
    {
+     genOvercrowding = 0;
+     genLonliness = 0;
+     genBirth = 0;
+     genSurvive = 0;
+     
      for(int row = 0; row < rows; row++)
      {
        for(int col = 0; col < cols; col++)
@@ -62,24 +73,26 @@ class Board
          {
            nextCells[row][col] = true;
            birth++;
+           genBirth++;
          }
          
          if(get(row,col) && countLiveCells(row, col) >= 2 && countLiveCells(row, col) <= 3)
          {
            nextCells[row][col] = true;
-           //survive++;
+           genSurvive++;
          }
          
          if(get(row,col) && countLiveCells(row, col) > 3)
          {
            nextCells[row][col] = false;
-           overcrowding++;
+           genOvercrowding++;
          }
          
          if(get(row,col) && countLiveCells(row, col) < 2)
          {
            nextCells[row][col] = false;
            lonliness++;
+           genLonliness++; 
          }
        }
      }
