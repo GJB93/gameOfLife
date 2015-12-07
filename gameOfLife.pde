@@ -14,12 +14,22 @@ ArrayList<Integer> genLonl;
 ArrayList<Integer> genSurv;
 ArrayList<Integer> generation;
 
+Graph deathGraph;
+
+float borderW, borderH;
+
+int maxInit=Integer.MIN_VALUE;
+int minInit=Integer.MAX_VALUE;
+
 int mode = 0;
 
 void setup()
 {
   size(1000, 700);
   frameRate(60);
+  borderW = width*0.1f;
+  borderH = height*0.1f;
+  
   int initNum = 500;
   int rows = int(height/10);
   int cols = int(width/10);
@@ -52,22 +62,33 @@ void draw()
   switch(mode)
   {
     case 0:
+    {
       board.render();
+      break;
+    }
+      
+    case 1:
+    {
+      deathGraph.drawTrendLine();
+      break;
+    }
   }
   if(!board.end)
   {
     board.update();
-    totalDeaths.add(board.deaths);
+    totalDeaths.add(board.death);
     totalBirths.add(board.birth);
     totalOverC.add(board.overcrowding);
     totalLonl.add(board.lonliness);
     totalSurv.add(board.survive);
     genDeaths.add(board.genDeath);
-    genBirth.add(board.genBirth);
+    genBirths.add(board.genBirth);
     genOverC.add(board.genOvercrowding);
     genLonl.add(board.genLonliness);
     genSurv.add(board.genSurvive);
     generation.add(board.generation);
+    
+    deathGraph = new Graph("Deaths", totalDeaths, generation, board.death, totalDeaths.get(0), borderW, borderH, color(255, 0, 0));
   }
   fill(100);
   rect(width*0.20f, height*0.025f, 300, 200);

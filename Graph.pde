@@ -3,7 +3,7 @@ class Graph
   //Creating fields needed for drawing a graph
   Axis axis;
   ArrayList<Integer> data;
-  ArrayList<String> names;
+  ArrayList<Integer> names;
   int max;
   int min;
   float borderW = width*0.1f; 

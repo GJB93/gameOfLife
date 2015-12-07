@@ -72,47 +72,16 @@ class Axis
   {
     textSize(10);
     textAlign(LEFT, CENTER);
-    for(int i=0; i<xText.size(); i++)
-    {
-      //Draw the tick lines
-      line(borderW+(horizontalIncrement*i), (height-borderH)+tickW, borderW+(horizontalIncrement*i), height-borderH);
-      
-      //Push the current transformation matrix to the stack (i.e, drawing from 0,0)
-      pushMatrix();
-      //Translate the origin to the point to write the text for the x axis
-      translate(borderW+(i*horizontalIncrement), (height-borderH)+textIntW);
-      //Rotate the text 90 degrees
-      rotate(-PI/2);
-      fill(255);
-      //Write the rotated text underneath the x axis ticks
-      text("Gen " + (xText.get(i)), 0, 0);
-      //Pop the transformation matrix off the stack
-      popMatrix();
-    }//end for
+    text("Generation 0 - " + xText.size(), width*0.5f, (height-borderH)+textIntW);
   }
   
   //Method to draw the X-ticks specific for bar graphs
   void drawBarXTicks()
   {
     textSize(10);
-    textAlign(LEFT, CENTER);
-    for(int i=0; i<xText.size(); i++)
-    {
-      //Draw the tick lines
-      line(borderW+(horizontalIncrement*i), (height-borderH)+tickW, borderW+(horizontalIncrement*i), height-borderH);
-      
-      //Push the current transformation matrix to the stack (i.e, drawing from 0,0)
-      pushMatrix();
-      //Translate the origin to the point to write the text for the x axis
-      translate(borderW+(i*horizontalIncrement), (height-borderH)+textIntW);
-      //Rotate the text 90 degrees
-      rotate(-PI/2);
-      fill(255);
-      //Write the rotated text underneath the x axis ticks
-      text("Gen " + (xText.get(i)), 0, 0);
-      //Pop the transformation matrix off the stack
-      popMatrix();
-    }//end for
+    textAlign(CENTER, CENTER);
+    
+    text("Generation 0 - " + xText.size(), width*0.5f, (height-borderH)+textIntW);
   }
   
   //Method to draw the ticks for the Y axis
