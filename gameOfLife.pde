@@ -31,26 +31,29 @@ int maxGDB = maxInit;
 
 
 int mode = 0;
-int elapsed = 12;
-int updateRate = 12;
+int elapsed = 0;
+int updateRate = 0;
+int initNum = 10000*10;
 
 void setup()
 {
   size(1800, 1000);
-  frameRate(60);
+  frameRate(120);
   borderW = width*0.1f;
   borderH = height*0.1f;
   
-  int initNum = 100*100;
-  int rows = int(height/10);
-  int cols = int(width/10);
+  int rows = int(height/4);
+  int cols = int(width/4);
   board = new Board(rows, cols);
   
+  createGliderGun(6, 8);
   
+  /*
   for(int i=0; i<initNum; i++)
   {
     board.set(int(random(rows-1)),int(random(cols-1)), true);
   }
+  */
   
   
   /*
@@ -232,7 +235,7 @@ void gui()
     Creating an accordion that holds the menu options
   */
   accordion = cp5.addAccordion("acc")
-                  .setPosition(10, 20)
+                  .setPosition(width-210, 20)
                   .setWidth(200)
                   .addItem(g1)
                   ;
@@ -244,9 +247,8 @@ void gui()
 
 void newBoard()
 {
-  int initNum = 100*100;
-  int rows = int(height/10);
-  int cols = int(width/10);
+  int rows = int(height/5);
+  int cols = int(width/5);
   int minDB = 0;
   board = new Board(rows, cols);
   
@@ -319,4 +321,65 @@ void radio(int theC)
       break;
     }
   }
+}
+
+void createGliderGun(int initalRow, int initialCol)
+{
+  
+  //Left Square
+  board.set(initalRow+5, initialCol+1, true);
+  board.set(initalRow+5, initialCol+2, true);
+  board.set(initalRow+6, initialCol+1, true);
+  board.set(initalRow+6, initialCol+2, true);
+  
+  //Left 3 block
+  board.set(initalRow+6, initialCol+11, true);
+  board.set(initalRow+5, initialCol+11, true);
+  board.set(initalRow+7, initialCol+11, true);
+  
+  //C shape
+  board.set(initalRow+8, initialCol+12, true);
+  board.set(initalRow+4, initialCol+12, true);
+  board.set(initalRow+3, initialCol+13, true);
+  board.set(initalRow+3, initialCol+14, true);
+  board.set(initalRow+9, initialCol+13, true);
+  board.set(initalRow+9, initialCol+14, true);
+  
+  //Dot
+  board.set(initalRow+6, initialCol+15, true);
+  
+  //Spaceshippy thing
+  board.set(initalRow+4, initialCol+16, true);
+  board.set(initalRow+8, initialCol+16, true);
+  board.set(initalRow+7, initialCol+17, true);
+  board.set(initalRow+6, initialCol+17, true);
+  board.set(initalRow+5, initialCol+17, true);
+  board.set(initalRow+6, initialCol+18, true);
+  
+  
+  //Rectangle 6 block
+  board.set(initalRow+5, initialCol+21, true);
+  board.set(initalRow+4, initialCol+21, true);
+  board.set(initalRow+3, initialCol+21, true);
+  board.set(initalRow+5, initialCol+22, true);
+  board.set(initalRow+4, initialCol+22, true);
+  board.set(initalRow+3, initialCol+22, true);
+  
+  //Top right and bottom left
+  board.set(initalRow+2, initialCol+23, true);
+  board.set(initalRow+6, initialCol+23, true);
+  
+  //Top 2 line
+  board.set(initalRow+2, initialCol+25, true);
+  board.set(initalRow+1, initialCol+25, true);
+  
+  //Bottom 2 line
+  board.set(initalRow+6, initialCol+25, true);
+  board.set(initalRow+7, initialCol+25, true);
+  
+  //Right Square
+  board.set(initalRow+4, initialCol+35, true);
+  board.set(initalRow+3, initialCol+35, true);
+  board.set(initalRow+4, initialCol+36, true);
+  board.set(initalRow+3, initialCol+36, true);
 }
