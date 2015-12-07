@@ -14,6 +14,7 @@ class Board
    float cellHeight;
    boolean[][] cells;
    boolean[][] nextCells;
+   boolean end;
  
     
    Board(int rows, int cols)
@@ -30,6 +31,7 @@ class Board
      generation = 0;
      cells = new boolean[rows][cols]; 
      nextCells = new boolean[rows][cols];
+     end = false;
      
      cellWidth = width  / cols;
      cellHeight = height  / rows;
@@ -97,11 +99,15 @@ class Board
        }
      }
      
-     generation++;
-     //boolean[][] temp = cells;
-     cells = nextCells;
-     //nextCells = temp;
-     
+     if(genBirth == 0 && genOvercrowding == 0 && genLonliness == 0)
+     {
+       end = true;
+     }
+     else
+     {
+       generation++;
+       cells = nextCells;
+     }
    }
    
    int countLiveCells(int row, int col)

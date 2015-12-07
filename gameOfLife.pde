@@ -2,6 +2,8 @@ import controlP5.*;
 ControlP5 cp5;
 Accordion accordion;
 
+int mode = 0;
+
 void setup()
 {
   size(1000, 700);
@@ -22,7 +24,10 @@ Board board;
 void draw()
 {
   board.render();
-  board.update();
+  if(!board.end)
+  {
+    board.update();
+  }
   fill(100);
   rect(width*0.20f, height*0.025f, 300, 200);
   fill(255);
@@ -73,4 +78,49 @@ void gui()
   accordion.setCollapseMode(Accordion.MULTI);
   //Setting the accordion to be open by default
   accordion.open(0);
+}
+
+/*
+  The radio method controls what happens when
+  each radio button is pressed
+*/
+void radio(int theC)
+{
+  /*
+    The switch statement controls which mode the
+    program enters depending on the radio button
+    chosen
+  */
+  switch(theC)
+  {
+    case 0:
+    {
+      mode = 0;
+      break;
+    }
+    
+    case 1:
+    {
+      mode = 1;
+      break;
+    }
+    
+    case 2:
+    {
+      mode = 2;
+      break;
+    }
+    
+    case 3:
+    {
+      mode = 3;
+      break;
+    }
+    
+    case 4:
+    {
+      mode = 4;
+      break;
+    }
+  }
 }
