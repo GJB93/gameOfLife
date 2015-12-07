@@ -1,6 +1,6 @@
 class Board
 {
-  k
+  ArrayList<Position> cellPositions;
   int rows;
   int cols;
   int overcrowding;
@@ -38,6 +38,7 @@ class Board
     cells = new boolean[rows][cols]; 
     nextCells = new boolean[rows][cols];
     end = false;
+    cellPositions = new ArrayList<PVector>();
      
     cellWidth = width  / cols;
     cellHeight = height  / rows;
@@ -88,7 +89,6 @@ class Board
         if(get(row,col) && countLiveCells(row, col) >= 2 && countLiveCells(row, col) <= 3)
         {
           nextCells[row][col] = true;
-          survive++;
           genSurvive++;
         }
          
@@ -118,6 +118,7 @@ class Board
     }
     else
     {
+      survive += genSurvive;
       generation++;
       cells = nextCells;
     }
@@ -171,9 +172,13 @@ class Board
  
   void set(int row, int col, boolean value)
   {
-    if (row >= 0 && row < rows && col >= 0 && col < cols)
+    if (row >= 0 && row < rows && col >= 0 && col < cols && !cells[row][col])
     {
+      float x = col * cellHeight;
+      float y = row * cellWidth;
       cells[row][col] = value;
+      survive++;
+      cellPositions.add(new PVector(x, y));
     }
   }  
    

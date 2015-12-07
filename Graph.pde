@@ -157,36 +157,6 @@ class Graph
   }
   
   /*
-  //Method to draw a slopegraph for two sets of values
-  void drawSlopeGraph()
-  {
-    //Setting some defaults used to draw the graph
-    int numYears = 7;
-    float x1 = map(width*0.25f, 0, width, borderW, borderW+graphW);
-    float x2 = map(width-(width*0.25f), 0, width, borderW, borderW+graphW);
-    float tWidth = 50;
-    axis = new Axis();
-
-    //Drawing the slopegraph axis
-    axis.drawSlopeAxis();
-    
-    //Writing the title for the graph
-    fill(255);
-    textAlign(CENTER, CENTER);
-    textSize(12);
-    text(title, width/2, borderH*0.5f);
-    textSize(8);
-    
-      float y1 = map(preRecessionAvg, min, max, height-borderH, borderH);
-      float y2 = map(postRecessionAvg, min, max, height-borderH, borderH);
-      
-      //Drawing the slope
-      line(x1, y1, x2, y2);
-    }
-  }
-  */
-  
-  /*
     Method used for tracking the mouse postition, which allows the user to
     see the specific value for each given year when howvering over the graph
   */

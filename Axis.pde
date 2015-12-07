@@ -98,21 +98,4 @@ class Axis
       text(int((numberInc*i)+min), borderW-textIntH, (height-borderH)-(tickIncrement*i));
     }//end for
   }
-  
-  /*
-  //Draws an axis for a slopegraph
-  void drawSlopeAxis()
-  {
-    float x1 = map(width*0.25f, 0, width, borderW, borderW+graphW);
-    float x2 = map(width-(width*0.25f), 0, width, borderW, borderW+graphW);
-    textAlign(CENTER, CENTER);
-    textSize(11);
-    fill(255);
-    stroke(255);
-    line(x1, height-borderH, x1, (height-borderH) - graphH);
-    line(x2, height-borderH, x2, (height-borderH) - graphH);
-    text("02-08 Average Sold", x1, borderH*0.7f);
-    text("09-15 Average Sold", x2, borderH*0.7f);
-  }
-  */
 }
