@@ -2,6 +2,18 @@ import controlP5.*;
 ControlP5 cp5;
 Accordion accordion;
 
+ArrayList<Integer> totalDeaths;
+ArrayList<Integer> totalBirths;
+ArrayList<Integer> totalOverC;
+ArrayList<Integer> totalLonl;
+ArrayList<Integer> totalSurv;
+ArrayList<Integer> genDeaths;
+ArrayList<Integer> genBirths;
+ArrayList<Integer> genOverC;
+ArrayList<Integer> genLonl;
+ArrayList<Integer> genSurv;
+ArrayList<Integer> generation;
+
 int mode = 0;
 
 void setup()
@@ -16,6 +28,19 @@ void setup()
   {
     board.set(int(random(rows-1)),int(random(cols-1)), true);
   }
+  
+  totalDeaths = new ArrayList<Integer>();
+  totalBirths = new ArrayList<Integer>();
+  totalOverC = new ArrayList<Integer>();
+  totalLonl = new ArrayList<Integer>();
+  totalSurv = new ArrayList<Integer>();
+  genDeaths = new ArrayList<Integer>();
+  genBirths = new ArrayList<Integer>();
+  genOverC = new ArrayList<Integer>();
+  genLonl = new ArrayList<Integer>();
+  genSurv = new ArrayList<Integer>();
+  generation = new ArrayList<Integer>();
+  
   gui();
 }
 
@@ -27,11 +52,22 @@ void draw()
   switch(mode)
   {
     case 0:
-    board.render();
+      board.render();
   }
   if(!board.end)
   {
     board.update();
+    totalDeaths.add(board.deaths);
+    totalBirths.add(board.birth);
+    totalOverC.add(board.overcrowding);
+    totalLonl.add(board.lonliness);
+    totalSurv.add(board.survive);
+    genDeaths.add(board.genDeath);
+    genBirth.add(board.genBirth);
+    genOverC.add(board.genOvercrowding);
+    genLonl.add(board.genLonliness);
+    genSurv.add(board.genSurvive);
+    generation.add(board.generation);
   }
   fill(100);
   rect(width*0.20f, height*0.025f, 300, 200);

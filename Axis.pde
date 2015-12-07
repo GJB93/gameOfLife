@@ -2,7 +2,7 @@ class Axis
 {
   //Creating fields necessary for creating the axis of a graph
   ArrayList<Integer> yText;
-  ArrayList<String> xText;
+  ArrayList<Integer> xText;
   int max;
   int min;
   float borderW; 
@@ -47,12 +47,12 @@ class Axis
   }
   
   //Constructor for an Integer and String ArrayList
-  Axis(ArrayList<Integer> yText, ArrayList<String> xText, int max, int min, float borderW, float borderH, float rectW)
+  Axis(ArrayList<Integer> yText, ArrayList<Integer> xText, int max, int min, float borderW, float borderH, float rectW)
   {
     this(max, min, borderW, borderH, rectW);
     //Initialise the yText and xText ArrayLists
     this.yText = new ArrayList<Integer>();
-    this.xText = new ArrayList<String>();
+    this.xText = new ArrayList<Integer>();
     
     //Copy the data entered to the constructor into the class' ArrayLists
     this.yText.addAll(yText);
@@ -85,15 +85,7 @@ class Axis
       rotate(-PI/2);
       fill(255);
       //Write the rotated text underneath the x axis ticks
-      if((xText.get(i)).length() > 3)
-      {
-        text((xText.get(i)).substring(0,4), 0, 0);
-      }
-      else
-      {
-        text((xText.get(i)).substring(0,3), 0, 0);
-      }
-      
+      text("Gen " + (xText.get(i)), 0, 0);
       //Pop the transformation matrix off the stack
       popMatrix();
     }//end for
