@@ -5,7 +5,7 @@ Accordion accordion;
 void setup()
 {
   size(1000, 700);
-  frameRate(1);
+  frameRate(60);
   int initNum = 500;
   int rows = int(height/10);
   int cols = int(width/10);
@@ -14,6 +14,7 @@ void setup()
   {
     board.set(int(random(rows-1)),int(random(cols-1)), true);
   }
+  gui();
 }
 
 Board board;
@@ -52,11 +53,9 @@ void gui()
     .setPosition(10, 20)
     .setItemWidth(20)
     .setItemHeight(20)
-    .addItem("Marque Totals", 0)
-    .addItem("Sorted Totals", 1)
-    .addItem("Top 10 Marques", 2)
-    .addItem("Yearly Totals", 3)
-    .addItem("Single Marque Yearly Totals", 4)
+    .addItem("Game of Life Simulation", 0)
+    .addItem("Total Births vs Deaths", 1)
+    .addItem("Births vs Deaths per Gen", 2)
     .setColorLabel(color(255))
     .activate(1)
     .moveTo(g1)
