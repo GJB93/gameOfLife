@@ -20,6 +20,8 @@ float borderW, borderH;
 
 int maxInit=Integer.MIN_VALUE;
 int minInit=Integer.MAX_VALUE;
+int minDB = minInit;
+int maxDB = maxInit;
 
 int mode = 0;
 
@@ -78,6 +80,20 @@ void draw()
     board.update();
     totalDeaths.add(board.death);
     totalBirths.add(board.birth);
+    
+    if(board.generation == 1)
+    {
+      if(totalDeaths.get(0) > totalBirths.get(0))
+      {
+        minDB = totalBirths.get(0);
+        maxDB = totalDeaths.get(0);
+      }
+      else
+      {
+        minDB = totalDeaths.get(0);
+        maxDB = totalBirths.get(0);
+      }
+    }
     totalOverC.add(board.overcrowding);
     totalLonl.add(board.lonliness);
     totalSurv.add(board.survive);
@@ -88,7 +104,16 @@ void draw()
     genSurv.add(board.genSurvive);
     generation.add(board.generation);
     
-    deathGraph = new Graph("Deaths", totalDeaths, generation, board.death, totalDeaths.get(0), borderW, borderH, color(255, 0, 0));
+    if(board.death > board.birth)
+    {
+      maxDB = board.death;
+    }
+    else
+    {
+      maxDB = board.birth;
+    }
+    
+    deathGraph = new Graph("Deaths", totalDeaths, totalBirths, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0));
   }
   fill(100);
   rect(width*0.20f, height*0.025f, 300, 200);
