@@ -45,10 +45,22 @@ void setup()
   int rows = int(height/10);
   int cols = int(width/10);
   board = new Board(rows, cols);
+  
+  /*
   for(int i=0; i<initNum; i++)
   {
     board.set(int(random(rows-1)),int(random(cols-1)), true);
   }
+  */
+  
+  
+  board.set(50,35,true);
+  board.set(50,36,true);
+  board.set(50,37,true);
+  println(board.countLiveCells(50, 35));
+  println(board.countLiveCells(49, 36));
+  println(board.countLiveCells(50, 36));
+  println(board.countLiveCells(50, 37));
   
   totalDeaths = new ArrayList<Integer>();
   totalBirths = new ArrayList<Integer>();

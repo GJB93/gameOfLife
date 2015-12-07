@@ -38,7 +38,7 @@ class Board
     cells = new boolean[rows][cols]; 
     nextCells = new boolean[rows][cols];
     end = false;
-    cellPositions = new ArrayList<PVector>();
+    cellPositions = new ArrayList<Position>();
      
     cellWidth = width  / cols;
     cellHeight = height  / rows;
@@ -79,20 +79,7 @@ class Board
     {
       for(int col = 0; col < cols; col++)
       {
-        if(!get(row,col) && countLiveCells(row, col) == 3)
-        {
-          nextCells[row][col] = true;
-          birth++;
-          genBirth++;
-        }
-         
-        if(get(row,col) && countLiveCells(row, col) >= 2 && countLiveCells(row, col) <= 3)
-        {
-          nextCells[row][col] = true;
-          genSurvive++;
-        }
-         
-        if(get(row,col) && countLiveCells(row, col) > 3)
+        if(countLiveCells(row, col) > 3)
         {
           nextCells[row][col] = false;
           overcrowding++;
@@ -100,14 +87,25 @@ class Board
           genDeath++;
           death++;
         }
-         
-        if(get(row,col) && countLiveCells(row, col) < 2)
+        else if(countLiveCells(row, col) < 2)
         {
+          println(row + " " + col);
           nextCells[row][col] = false;
           lonliness++;
           genLonliness++; 
           genDeath++;
           death++;
+        }
+        else if(countLiveCells(row, col) == 3)
+        {
+          nextCells[row][col] = true;
+          birth++;
+          genBirth++;
+        }
+        else if(countLiveCells(row, col) == 2 && countLiveCells(row, col) == 3)
+        {
+          nextCells[row][col] = cells[row][col];
+          genSurvive++;
         }
       }
     }
@@ -120,7 +118,9 @@ class Board
     {
       survive += genSurvive;
       generation++;
+      //boolean[][] temp = cells;
       cells = nextCells;
+      //nextCells = temp;
     }
   }
    
@@ -178,7 +178,7 @@ class Board
       float y = row * cellWidth;
       cells[row][col] = value;
       survive++;
-      cellPositions.add(new PVector(x, y));
+      cellPositions.add(new Position(new PVector(x, y), row, col));
     }
   }  
    
