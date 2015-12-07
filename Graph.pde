@@ -4,6 +4,7 @@ class Graph
   Axis axis;
   ArrayList<Integer> dataset1;
   ArrayList<Integer> dataset2;
+  ArrayList<Integer> dataset3;
   ArrayList<Integer> data;
   ArrayList<Integer> names;
   int max;
@@ -16,6 +17,7 @@ class Graph
   float rectWidth;
   color c1;
   color c2;
+  color c3;
   String title;
   
   //Constructors for Graph class
@@ -38,18 +40,21 @@ class Graph
   }
   
   //Constructor that only uses a single colour for the graph
-  Graph(String title, ArrayList<Integer> data1, ArrayList<Integer> data2, ArrayList<Integer> names, int max, int min, float borderW, float borderH, color c1, color c2)
+  Graph(String title, ArrayList<Integer> data1, ArrayList<Integer> data2, ArrayList<Integer> data3, ArrayList<Integer> names, int max, int min, float borderW, float borderH, color c1, color c2, color c3)
   {
     this(title, data1.size(), max, min, borderW, borderH);
     this.dataset1 = new ArrayList<Integer>();
     this.dataset2 = new ArrayList<Integer>();
+    this.dataset3 = new ArrayList<Integer>();
     this.names = new ArrayList<Integer>();
     this.dataset1.addAll(data1);
     this.dataset2.addAll(data2);
+    this.dataset3.addAll(data3);
     this.names.addAll(names);
     this.numOfDatasets = 2;
     this.c1 = c1;
     this.c2 = c2;
+    this.c3 = c3;
   }
   
   
@@ -123,6 +128,11 @@ class Graph
       float x4 = map(i, 0, dataset2.size()-1, borderW, borderW+graphW);
       float y4 = map(dataset2.get(i), min, max, height-borderH, borderH);
       
+      float x5 = map(i-1, 0, dataset3.size()-1, borderW, borderW+graphW);
+      float y5 = map(dataset3.get(i-1), min, max, height-borderH, borderH);
+      float x6 = map(i, 0, dataset3.size()-1, borderW, borderW+graphW);
+      float y6 = map(dataset3.get(i), min, max, height-borderH, borderH);
+      
       stroke(c1);
       
       //Draw the line from the element before to the current element
@@ -130,6 +140,9 @@ class Graph
       
       stroke(c2);
       line(x3, y3, x4, y4);
+      
+      stroke(c3);
+      line(x5, y5, x6, y6);
     }//end for
     
     

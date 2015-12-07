@@ -23,7 +23,7 @@ float borderW, borderH;
 
 int maxInit=Integer.MIN_VALUE;
 int minInit=Integer.MAX_VALUE;
-int minDB = minInit;
+int minDB = 0;
 int maxDB = maxInit;
 int maxLO = maxInit;
 int minGDB = 0;
@@ -31,6 +31,8 @@ int maxGDB = maxInit;
 
 
 int mode = 0;
+int elapsed = 12;
+int updateRate = 12;
 
 void setup()
 {
@@ -69,6 +71,7 @@ Board board;
 void draw()
 {
   background(50);
+  
   switch(mode)
   {
     case 0:
@@ -88,10 +91,16 @@ void draw()
       genGraph.drawTrendLine();
       break;
     }
+    
+    case 3:
+    {
+      vsGraph.drawBarChart();
+      break;
+    }
   }
-  if(!board.end)
+  
+  if(!board.end && elapsed == updateRate)
   {
-    board.update();
     totalDeaths.add(board.death);
     totalBirths.add(board.birth);
     lonlOverC.set(0, board.overcrowding);
@@ -104,17 +113,19 @@ void draw()
     genSurv.add(board.genSurvive);
     generation.add(board.generation);
     
-    if(board.generation == 1)
+    if(board.generation == 0)
     {
-      if(totalDeaths.get(0) > totalBirths.get(0))
+      if(totalDeaths.get(0) > totalBirths.get(0) && totalDeaths.get(0) > totalSurv.get(0))
       {
-        minDB = totalBirths.get(0);
         maxDB = totalDeaths.get(0);
+      }
+      else if(totalBirths.get(0) > totalDeaths.get(0) && totalBirths.get(0) > totalSurv.get(0))
+      {
+        maxDB = totalBirths.get(0);
       }
       else
       {
-        minDB = totalDeaths.get(0);
-        maxDB = totalBirths.get(0);
+        maxDB = totalSurv.get(0);
       }
     }
     
@@ -127,13 +138,17 @@ void draw()
       maxLO = board.lonliness;
     }
     
-    if(board.death > board.birth)
+    if(board.death > board.birth && board.death > board.survive)
     {
       maxDB = board.death;
     }
-    else
+    else if(board.birth > board.death && board.birth > board.survive)
     {
       maxDB = board.birth;
+    }
+    else
+    {
+      maxDB = board.survive;
     }
     
     if(board.genDeath > maxGDB)
@@ -146,9 +161,21 @@ void draw()
       maxGDB = board.genBirth;
     }
     
-    deathGraph = new Graph("Total Births vs Deaths", totalDeaths, totalBirths, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0));
+    if(board.genSurvive > maxGDB)
+    {
+      maxGDB = board.genSurvive;
+    }
+    
+    deathGraph = new Graph("Total Births vs Deaths", totalDeaths, totalBirths, totalSurv, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0), color(255));
     vsGraph = new Graph("Lonliness vs Overcrowding", lonlOverC, generation, maxLO, 0, borderW, borderH, color(0));
-    genGraph = new Graph("Births vs Deaths per Generation", genDeaths, genBirths, generation, maxGDB, minGDB, borderW, borderH, color(255, 0, 0), color(0,255,0));
+    genGraph = new Graph("Births vs Deaths per Generation", genDeaths, genBirths, genSurv, generation, maxGDB, minGDB, borderW, borderH, color(255, 0, 0), color(0,255,0), color(255));
+    
+    board.update();
+    elapsed = 0;
+  }
+  else
+  {
+    elapsed++;
   }
 }
 
@@ -162,7 +189,7 @@ void gui()
     to allow the user to switch between the different groups
     of graphs
   */
-  Group g1 = cp5.addGroup("Choose Graph").setBackgroundColor(color(255, 50)).setBackgroundHeight(150);
+  Group g1 = cp5.addGroup("Choose Graph").setBackgroundColor(color(255)).setBackgroundHeight(150);
   
   /*
     Creating the radio buttons for switching graphs
@@ -172,9 +199,10 @@ void gui()
     .setItemWidth(20)
     .setItemHeight(20)
     .addItem("Game of Life Simulation", 0)
-    .addItem("Total Births vs Deaths", 1)
-    .addItem("Births vs Deaths per Gen", 2)
-    .setColorLabel(color(255))
+    .addItem("Total Births vs Deaths vs Survivors", 1)
+    .addItem("Births vs Deaths vs Survivors per Gen", 2)
+    .addItem("Lonliness vs Overcrowding Deaths", 3)
+    .setColorLabel(color(0))
     .activate(0)
     .moveTo(g1)
     ;
