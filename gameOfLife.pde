@@ -36,32 +36,31 @@ int updateRate = 12;
 
 void setup()
 {
-  size(1000, 700);
+  size(1800, 1000);
   frameRate(60);
   borderW = width*0.1f;
   borderH = height*0.1f;
   
-  int initNum = 500;
+  int initNum = 100*100;
   int rows = int(height/10);
   int cols = int(width/10);
   board = new Board(rows, cols);
   
-  /*
+  
   for(int i=0; i<initNum; i++)
   {
     board.set(int(random(rows-1)),int(random(cols-1)), true);
   }
-  */
   
   
-  board.set(50,35,true);
-  board.set(50,36,true);
-  board.set(50,37,true);
-  println(board.countLiveCells(50, 35));
-  println(board.countLiveCells(49, 36));
-  println(board.countLiveCells(50, 36));
-  println(board.countLiveCells(50, 37));
+  /*
+  board.set(34,60,true);
+  board.set(35,60,true);
+  board.set(36,60,true);
   
+  println(board.countLiveCells(35, 60));
+   */
+   
   totalDeaths = new ArrayList<Integer>();
   totalBirths = new ArrayList<Integer>();
   lonlOverC = new ArrayList<Integer>();
@@ -79,6 +78,7 @@ void setup()
 }
 
 Board board;
+
 
 void draw()
 {
@@ -107,6 +107,13 @@ void draw()
     case 3:
     {
       vsGraph.drawBarChart();
+      break;
+    }
+    
+    case 4:
+    {
+      newBoard();
+      mode = 0;
       break;
     }
   }
@@ -191,6 +198,7 @@ void draw()
   }
 }
 
+
 void gui()
 {
   //Creating a new ControlP5 object
@@ -214,6 +222,7 @@ void gui()
     .addItem("Total Births vs Deaths vs Survivors", 1)
     .addItem("Births vs Deaths vs Survivors per Gen", 2)
     .addItem("Lonliness vs Overcrowding Deaths", 3)
+    .addItem("Reset Board", 4)
     .setColorLabel(color(0))
     .activate(0)
     .moveTo(g1)
@@ -231,6 +240,40 @@ void gui()
   accordion.setCollapseMode(Accordion.MULTI);
   //Setting the accordion to be open by default
   accordion.open(0);
+}
+
+void newBoard()
+{
+  int initNum = 100*100;
+  int rows = int(height/10);
+  int cols = int(width/10);
+  int minDB = 0;
+  board = new Board(rows, cols);
+  
+  for(int i=0; i<initNum; i++)
+  {
+    board.set(int(random(rows-1)),int(random(cols-1)), true);
+  }
+  
+  totalDeaths = new ArrayList<Integer>();
+  totalBirths = new ArrayList<Integer>();
+  lonlOverC = new ArrayList<Integer>();
+  lonlOverC.add(0);
+  lonlOverC.add(0);
+  totalSurv = new ArrayList<Integer>();
+  genDeaths = new ArrayList<Integer>();
+  genBirths = new ArrayList<Integer>();
+  genOverC = new ArrayList<Integer>();
+  genLonl = new ArrayList<Integer>();
+  genSurv = new ArrayList<Integer>();
+  generation = new ArrayList<Integer>();
+  
+  maxDB = maxInit;
+  maxLO = maxInit;
+  minGDB = 0;
+  maxGDB = maxInit;
+  
+  gui();
 }
 
 /*

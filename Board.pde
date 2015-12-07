@@ -53,16 +53,16 @@ class Board
          float x = col * cellHeight;
          float y = row * cellWidth;
          if(cells[row][col])
-          {
-            stroke(255);
-            fill(255);
-          }
-          else
-          {
-            stroke(50);
-            fill(0);
-          }
-          rect(x,y,cellHeight,cellWidth);
+         {
+           stroke(255);
+           fill(255);
+         }
+         else
+         {
+           stroke(50);
+           fill(0);
+         }
+         rect(x,y,cellHeight,cellWidth);
        }
      }
    }
@@ -79,6 +79,20 @@ class Board
     {
       for(int col = 0; col < cols; col++)
       {
+        
+        if(countLiveCells(row, col) >= 2 && countLiveCells(row, col) <= 3)
+        {
+          nextCells[row][col] = cells[row][col];
+          genSurvive++;
+        }
+        
+        if(countLiveCells(row, col) == 3)
+        {
+          nextCells[row][col] = true;
+          birth++;
+          genBirth++;
+        }
+        
         if(countLiveCells(row, col) > 3)
         {
           nextCells[row][col] = false;
@@ -87,25 +101,14 @@ class Board
           genDeath++;
           death++;
         }
-        else if(countLiveCells(row, col) < 2)
+        
+        if(countLiveCells(row, col) < 2)
         {
-          println(row + " " + col);
           nextCells[row][col] = false;
           lonliness++;
           genLonliness++; 
           genDeath++;
           death++;
-        }
-        else if(countLiveCells(row, col) == 3)
-        {
-          nextCells[row][col] = true;
-          birth++;
-          genBirth++;
-        }
-        else if(countLiveCells(row, col) == 2 && countLiveCells(row, col) == 3)
-        {
-          nextCells[row][col] = cells[row][col];
-          genSurvive++;
         }
       }
     }
@@ -120,6 +123,7 @@ class Board
       generation++;
       //boolean[][] temp = cells;
       cells = nextCells;
+      nextCells = new boolean[rows][cols];
       //nextCells = temp;
     }
   }
@@ -167,6 +171,7 @@ class Board
     {
       count++;
     }
+   
     return count;
   }
  
