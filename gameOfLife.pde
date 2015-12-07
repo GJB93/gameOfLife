@@ -24,6 +24,8 @@ int maxInit=Integer.MIN_VALUE;
 int minInit=Integer.MAX_VALUE;
 int minDB = minInit;
 int maxDB = maxInit;
+int maxLO = maxInit;
+
 
 int mode = 0;
 
@@ -105,6 +107,14 @@ void draw()
     }
     lonlOverC.set(0, board.overcrowding);
     lonlOverC.set(1, board.lonliness);
+    if(board.overcrowding > board.lonliness)
+    {
+      maxLO = board.overcrowding;
+    }
+    else
+    {
+      maxLO = board.lonliness;
+    }
     totalSurv.add(board.survive);
     genDeaths.add(board.genDeath);
     genBirths.add(board.genBirth);
@@ -123,7 +133,7 @@ void draw()
     }
     
     deathGraph = new Graph("Deaths", totalDeaths, totalBirths, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0));
-    vsGraph = new Graph("Lonliness vs Overcrowding", lonlOverC, generation, 1000000, 0, borderW, borderH, color(0));
+    vsGraph = new Graph("Lonliness vs Overcrowding", lonlOverC, generation, maxLO, 0, borderW, borderH, color(0));
   }
 }
 
