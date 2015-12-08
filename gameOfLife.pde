@@ -179,6 +179,7 @@ void gui()
                   .addItem(g1)
                   ;
   
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 5;}}, 'p');
   cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 4;}}, 's');
   cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 3;}}, 'c');
   cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 2;}}, 'r');
