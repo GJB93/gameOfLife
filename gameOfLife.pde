@@ -1,6 +1,7 @@
 import controlP5.*;
 ControlP5 cp5;
 Accordion accordion;
+RadioButton r;
 
 ArrayList<Integer> totalDeaths;
 ArrayList<Integer> totalBirths;
@@ -35,6 +36,9 @@ int elapsed = 0;
 int updateRate = 0;
 int initNum = 10000*10;
 int screenDivision = 5;
+int rows;
+int cols;
+boolean start;
 
 void setup()
 {
@@ -43,11 +47,12 @@ void setup()
   borderW = width*0.1f;
   borderH = height*0.1f;
   
-  int rows = int(height/screenDivision);
-  int cols = int(width/screenDivision);
+  rows = int(height/screenDivision);
+  cols = int(width/screenDivision);
   board = new Board(rows, cols);
   
   createGliderGun(6, 8);
+  start = true;
   
   /*
   for(int i=0; i<initNum; i++)
@@ -127,9 +132,26 @@ void draw()
       mode = 0;
       break;
     }
+    
+    case 6:
+    {
+      board = new Board(rows, cols);
+      mode = 0;
+      break;
+    }
+    
+    /*
+    case 7:
+    {
+      start = true;
+      r.activate(0);
+      mode = 0;
+      break;
+    }
+    */
   }
   
-  if(!board.end && elapsed == updateRate)
+  if(elapsed == updateRate && start)
   {
     totalDeaths.add(board.death);
     totalBirths.add(board.birth);
@@ -220,12 +242,12 @@ void gui()
     to allow the user to switch between the different groups
     of graphs
   */
-  Group g1 = cp5.addGroup("Choose Graph").setBackgroundColor(color(255)).setBackgroundHeight(150);
+  Group g1 = cp5.addGroup("Choose Graph").setBackgroundColor(color(255)).setBackgroundHeight(200);
   
   /*
     Creating the radio buttons for switching graphs
   */
-  cp5.addRadioButton("radio")
+  r = cp5.addRadioButton("radio")
     .setPosition(10, 20)
     .setItemWidth(20)
     .setItemHeight(20)
@@ -235,6 +257,8 @@ void gui()
     .addItem("Lonliness vs Overcrowding Deaths", 3)
     .addItem("Create Glider Gun", 4)
     .addItem("Reset Board", 5)
+    .addItem("Clear Board", 6)
+    .addItem("Start Simulation", 7)
     .setColorLabel(color(0))
     .activate(0)
     .moveTo(g1)
@@ -256,8 +280,6 @@ void gui()
 
 void newBoard()
 {
-  int rows = int(height/5);
-  int cols = int(width/5);
   int minDB = 0;
   board = new Board(rows, cols);
   
@@ -335,13 +357,31 @@ void radio(int theC)
       mode = 5;
       break;
     }
+    
+    case 6:
+    {
+      mode = 6;
+      break;
+    }
+    
+    case 7:
+    {
+      mode = 7;
+      break;
+    }
   }
+}
+
+void mouseDragged()
+{
+  int i = int(map(mouseX, 0, width, 0, cols));
+  int j = int(map(mouseY, 0, height, 0, rows));
+  
+  board.set(j, i, true);
 }
 
 void createGliderGun(int initalRow, int initialCol)
 {
-  int rows = int(height/screenDivision);
-  int cols = int(width/screenDivision);
   int minDB = 0;
   board = new Board(rows, cols);
   //Left Square

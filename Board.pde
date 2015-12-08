@@ -18,7 +18,6 @@ class Board
   float cellHeight;
   boolean[][] cells;
   boolean[][] nextCells;
-  boolean end;
  
     
   Board(int rows, int cols)
@@ -37,7 +36,6 @@ class Board
     generation = 0;
     cells = new boolean[rows][cols]; 
     nextCells = new boolean[rows][cols];
-    end = false;
     cellPositions = new ArrayList<Position>();
      
     cellWidth = width  / cols;
@@ -113,19 +111,13 @@ class Board
       }
     }
      
-    if(genBirth == 0 && genDeath == 0)
-    {
-      end = true;
-    }
-    else
-    {
-      survive += genSurvive;
-      generation++;
-      //boolean[][] temp = cells;
-      cells = nextCells;
-      nextCells = new boolean[rows][cols];
-      //nextCells = temp;
-    }
+    survive += genSurvive;
+    generation++;
+    //boolean[][] temp = cells;
+    cells = nextCells;
+    nextCells = new boolean[rows][cols];
+    //nextCells = temp;
+    
   }
    
   int countLiveCells(int row, int col)
