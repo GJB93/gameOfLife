@@ -122,13 +122,16 @@ void draw()
     case 4:
     {
       createGliderGun(30, 30);
+      r.activate(0);
       mode = 0;
       break;
     }
     
     case 5:
     {
-      newBoard();
+      randomBoard();
+      start = false;
+      r.activate(0);
       mode = 0;
       break;
     }
@@ -136,11 +139,13 @@ void draw()
     case 6:
     {
       board = new Board(rows, cols);
+      start = false;
+      r.activate(0);
       mode = 0;
       break;
     }
     
-    /*
+    
     case 7:
     {
       start = true;
@@ -148,10 +153,10 @@ void draw()
       mode = 0;
       break;
     }
-    */
+    
   }
   
-  if(elapsed == updateRate && start)
+  if(start)
   {
     totalDeaths.add(board.death);
     totalBirths.add(board.birth);
@@ -223,11 +228,6 @@ void draw()
     genGraph = new Graph("Births vs Deaths per Generation", genDeaths, genBirths, genSurv, generation, maxGDB, minGDB, borderW, borderH, color(255, 0, 0), color(0,255,0), color(255));
     
     board.update();
-    elapsed = 0;
-  }
-  else
-  {
-    elapsed++;
   }
 }
 
@@ -256,7 +256,7 @@ void gui()
     .addItem("Births vs Deaths vs Survivors per Gen", 2)
     .addItem("Lonliness vs Overcrowding Deaths", 3)
     .addItem("Create Glider Gun", 4)
-    .addItem("Reset Board", 5)
+    .addItem("Random Board", 5)
     .addItem("Clear Board", 6)
     .addItem("Start Simulation", 7)
     .setColorLabel(color(0))
@@ -272,20 +272,35 @@ void gui()
                   .setWidth(200)
                   .addItem(g1)
                   ;
+  
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 7;}}, 's');
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 6;}}, 'c');
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 5;}}, 'r');
   //Allowing multiple accordion groups to be open
   accordion.setCollapseMode(Accordion.MULTI);
   //Setting the accordion to be open by default
   accordion.open(0);
 }
 
-void newBoard()
+void randomBoard()
 {
   int minDB = 0;
   board = new Board(rows, cols);
   
-  for(int i=0; i<initNum; i++)
+  for(int row=0; row<rows; row++)
   {
-    board.set(int(random(rows-1)),int(random(cols-1)), true);
+    for(int col=0; col<cols; col++)
+    {
+      float ranNum = random(0,1);
+      if(ranNum > 0.5f)
+      {
+        board.set(row,col, true);
+      }
+      else
+      {
+        board.set(row,col, false);
+      }
+    }
   }
   
   totalDeaths = new ArrayList<Integer>();
