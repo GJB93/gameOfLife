@@ -34,6 +34,7 @@ int mode = 0;
 int elapsed = 0;
 int updateRate = 0;
 int initNum = 10000*10;
+int screenDivision = 5;
 
 void setup()
 {
@@ -42,8 +43,8 @@ void setup()
   borderW = width*0.1f;
   borderH = height*0.1f;
   
-  int rows = int(height/4);
-  int cols = int(width/4);
+  int rows = int(height/screenDivision);
+  int cols = int(width/screenDivision);
   board = new Board(rows, cols);
   
   createGliderGun(6, 8);
@@ -114,6 +115,13 @@ void draw()
     }
     
     case 4:
+    {
+      createGliderGun(30, 30);
+      mode = 0;
+      break;
+    }
+    
+    case 5:
     {
       newBoard();
       mode = 0;
@@ -225,7 +233,8 @@ void gui()
     .addItem("Total Births vs Deaths vs Survivors", 1)
     .addItem("Births vs Deaths vs Survivors per Gen", 2)
     .addItem("Lonliness vs Overcrowding Deaths", 3)
-    .addItem("Reset Board", 4)
+    .addItem("Create Glider Gun", 4)
+    .addItem("Reset Board", 5)
     .setColorLabel(color(0))
     .activate(0)
     .moveTo(g1)
@@ -320,12 +329,21 @@ void radio(int theC)
       mode = 4;
       break;
     }
+    
+    case 5:
+    {
+      mode = 5;
+      break;
+    }
   }
 }
 
 void createGliderGun(int initalRow, int initialCol)
 {
-  
+  int rows = int(height/screenDivision);
+  int cols = int(width/screenDivision);
+  int minDB = 0;
+  board = new Board(rows, cols);
   //Left Square
   board.set(initalRow+5, initialCol+1, true);
   board.set(initalRow+5, initialCol+2, true);
