@@ -118,6 +118,14 @@ void draw()
       mode = 0;
       break;
     } 
+    
+    case 5:
+    {
+      start = false;
+      r.activate(0);
+      mode = 0;
+      break;
+    }
   }
   
   if(start && elapsed == updateRate)
@@ -156,6 +164,7 @@ void gui()
     .addItem("Random Board", 2)
     .addItem("Clear Board", 3)
     .addItem("Start Simulation", 4)
+    .addItem("Pause Simulation", 5)
     .setColorLabel(color(0))
     .activate(0)
     .moveTo(g1)
