@@ -32,8 +32,8 @@ int maxGDB = maxInit;
 
 
 int mode = 0;
-int elapsed = 0;
-int updateRate = 0;
+int elapsed = 12;
+int updateRate = 12;
 int screenDivision = 10;
 int rows;
 int cols;
@@ -113,7 +113,7 @@ void draw()
     case 4:
     {
       start = true;
-      elapsed = 0;
+      elapsed = 12;
       r.activate(0);
       mode = 0;
       break;
@@ -287,6 +287,20 @@ void radio(int theC)
 }
 
 void mouseDragged()
+{
+  int i = int(map(mouseX, 0, width, 0, cols));
+  int j = int(map(mouseY, 0, height, 0, rows));
+  
+  if(mouseButton == LEFT)
+  {
+    board.set(j, i, true);
+  } else if(mouseButton == RIGHT)
+  {
+    board.set(j, i, false);
+  }
+}
+
+void mouseClicked()
 {
   int i = int(map(mouseX, 0, width, 0, cols));
   int j = int(map(mouseY, 0, height, 0, rows));
