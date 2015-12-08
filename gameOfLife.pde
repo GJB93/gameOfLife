@@ -34,16 +34,15 @@ int maxGDB = maxInit;
 int mode = 0;
 int elapsed = 0;
 int updateRate = 0;
-int initNum = 10000*10;
-int screenDivision = 5;
+int screenDivision = 10;
 int rows;
 int cols;
 boolean start;
 
 void setup()
 {
-  size(1800, 1000);
-  frameRate(120);
+  size(500, 500);
+  frameRate(60);
   borderW = width*0.1f;
   borderH = height*0.1f;
   
@@ -51,24 +50,8 @@ void setup()
   cols = int(width/screenDivision);
   board = new Board(rows, cols);
   
-  createGliderGun(6, 8);
-  start = true;
-  
-  /*
-  for(int i=0; i<initNum; i++)
-  {
-    board.set(int(random(rows-1)),int(random(cols-1)), true);
-  }
-  */
-  
-  
-  /*
-  board.set(34,60,true);
-  board.set(35,60,true);
-  board.set(36,60,true);
-  
-  println(board.countLiveCells(35, 60));
-   */
+  //createGliderGun(6, 8);
+  start = false;
    
   totalDeaths = new ArrayList<Integer>();
   totalBirths = new ArrayList<Integer>();
@@ -103,31 +86,13 @@ void draw()
       
     case 1:
     {
-      deathGraph.drawTrendLine();
-      break;
-    }
-    
-    case 2:
-    {
-      genGraph.drawTrendLine();
-      break;
-    }
-    
-    case 3:
-    {
-      vsGraph.drawBarChart();
-      break;
-    }
-    
-    case 4:
-    {
-      createGliderGun(30, 30);
+      createGliderGun(0, 0);
       r.activate(0);
       mode = 0;
       break;
     }
     
-    case 5:
+    case 2:
     {
       randomBoard();
       start = false;
@@ -136,7 +101,7 @@ void draw()
       break;
     }
     
-    case 6:
+    case 3:
     {
       board = new Board(rows, cols);
       start = false;
@@ -145,89 +110,24 @@ void draw()
       break;
     }
     
-    
-    case 7:
+    case 4:
     {
       start = true;
+      elapsed = 0;
       r.activate(0);
       mode = 0;
       break;
-    }
-    
+    } 
   }
   
-  if(start)
+  if(start && elapsed == updateRate)
   {
-    totalDeaths.add(board.death);
-    totalBirths.add(board.birth);
-    lonlOverC.set(0, board.overcrowding);
-    lonlOverC.set(1, board.lonliness);
-    totalSurv.add(board.survive);
-    genDeaths.add(board.genDeath);
-    genBirths.add(board.genBirth);
-    genOverC.add(board.genOvercrowding);
-    genLonl.add(board.genLonliness);
-    genSurv.add(board.genSurvive);
-    generation.add(board.generation);
-    
-    if(board.generation == 0)
-    {
-      if(totalDeaths.get(0) > totalBirths.get(0) && totalDeaths.get(0) > totalSurv.get(0))
-      {
-        maxDB = totalDeaths.get(0);
-      }
-      else if(totalBirths.get(0) > totalDeaths.get(0) && totalBirths.get(0) > totalSurv.get(0))
-      {
-        maxDB = totalBirths.get(0);
-      }
-      else
-      {
-        maxDB = totalSurv.get(0);
-      }
-    }
-    
-    if(board.overcrowding > board.lonliness)
-    {
-      maxLO = board.overcrowding;
-    }
-    else
-    {
-      maxLO = board.lonliness;
-    }
-    
-    if(board.death > board.birth && board.death > board.survive)
-    {
-      maxDB = board.death;
-    }
-    else if(board.birth > board.death && board.birth > board.survive)
-    {
-      maxDB = board.birth;
-    }
-    else
-    {
-      maxDB = board.survive;
-    }
-    
-    if(board.genDeath > maxGDB)
-    {
-      maxGDB = board.genDeath;
-    }
-    
-    if(board.genBirth > maxGDB)
-    {
-      maxGDB = board.genBirth;
-    }
-    
-    if(board.genSurvive > maxGDB)
-    {
-      maxGDB = board.genSurvive;
-    }
-    
-    deathGraph = new Graph("Total Births vs Deaths", totalDeaths, totalBirths, totalSurv, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0), color(255));
-    vsGraph = new Graph("Lonliness vs Overcrowding", lonlOverC, generation, maxLO, 0, borderW, borderH, color(0));
-    genGraph = new Graph("Births vs Deaths per Generation", genDeaths, genBirths, genSurv, generation, maxGDB, minGDB, borderW, borderH, color(255, 0, 0), color(0,255,0), color(255));
-    
     board.update();
+    elapsed = 0;
+  }
+  else
+  {
+    elapsed++;
   }
 }
 
@@ -252,13 +152,10 @@ void gui()
     .setItemWidth(20)
     .setItemHeight(20)
     .addItem("Game of Life Simulation", 0)
-    .addItem("Total Births vs Deaths vs Survivors", 1)
-    .addItem("Births vs Deaths vs Survivors per Gen", 2)
-    .addItem("Lonliness vs Overcrowding Deaths", 3)
-    .addItem("Create Glider Gun", 4)
-    .addItem("Random Board", 5)
-    .addItem("Clear Board", 6)
-    .addItem("Start Simulation", 7)
+    .addItem("Create Glider Gun", 1)
+    .addItem("Random Board", 2)
+    .addItem("Clear Board", 3)
+    .addItem("Start Simulation", 4)
     .setColorLabel(color(0))
     .activate(0)
     .moveTo(g1)
@@ -273,9 +170,11 @@ void gui()
                   .addItem(g1)
                   ;
   
-  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 7;}}, 's');
-  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 6;}}, 'c');
-  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 5;}}, 'r');
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 4;}}, 's');
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 3;}}, 'c');
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {mode = 2;}}, 'r');
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {accordion.hide();}}, 'h');
+  cp5.mapKeyFor(new ControlKey() {public void keyEvent() {accordion.show();}}, 'd');
   //Allowing multiple accordion groups to be open
   accordion.setCollapseMode(Accordion.MULTI);
   //Setting the accordion to be open by default
@@ -392,7 +291,13 @@ void mouseDragged()
   int i = int(map(mouseX, 0, width, 0, cols));
   int j = int(map(mouseY, 0, height, 0, rows));
   
-  board.set(j, i, true);
+  if(mouseButton == LEFT)
+  {
+    board.set(j, i, true);
+  } else if(mouseButton == RIGHT)
+  {
+    board.set(j, i, false);
+  }
 }
 
 void createGliderGun(int initalRow, int initialCol)
@@ -455,4 +360,76 @@ void createGliderGun(int initalRow, int initialCol)
   board.set(initalRow+3, initialCol+35, true);
   board.set(initalRow+4, initialCol+36, true);
   board.set(initalRow+3, initialCol+36, true);
+}
+
+void createGraphs()
+{
+  totalDeaths.add(board.death);
+  totalBirths.add(board.birth);
+  lonlOverC.set(0, board.overcrowding);
+  lonlOverC.set(1, board.lonliness);
+  totalSurv.add(board.survive);
+  genDeaths.add(board.genDeath);
+  genBirths.add(board.genBirth);
+  genOverC.add(board.genOvercrowding);
+  genLonl.add(board.genLonliness);
+  genSurv.add(board.genSurvive);
+  generation.add(board.generation);
+  
+  if(board.generation == 0)
+  {
+    if(totalDeaths.get(0) > totalBirths.get(0) && totalDeaths.get(0) > totalSurv.get(0))
+    {
+      maxDB = totalDeaths.get(0);
+    }
+    else if(totalBirths.get(0) > totalDeaths.get(0) && totalBirths.get(0) > totalSurv.get(0))
+    {
+      maxDB = totalBirths.get(0);
+    }
+    else
+    {
+      maxDB = totalSurv.get(0);
+    }
+  }
+  
+  if(board.overcrowding > board.lonliness)
+  {
+    maxLO = board.overcrowding;
+  }
+  else
+  {
+    maxLO = board.lonliness;
+  }
+  
+  if(board.death > board.birth && board.death > board.survive)
+  {
+    maxDB = board.death;
+  }
+  else if(board.birth > board.death && board.birth > board.survive)
+  {
+    maxDB = board.birth;
+  }
+  else
+  {
+    maxDB = board.survive;
+  }
+  
+  if(board.genDeath > maxGDB)
+  {
+    maxGDB = board.genDeath;
+  }
+  
+  if(board.genBirth > maxGDB)
+  {
+    maxGDB = board.genBirth;
+  }
+  
+  if(board.genSurvive > maxGDB)
+  {
+    maxGDB = board.genSurvive;
+  }
+  
+  deathGraph = new Graph("Total Births vs Deaths", totalDeaths, totalBirths, totalSurv, generation, maxDB, minDB, borderW, borderH, color(255, 0, 0), color(0,255,0), color(255));
+  vsGraph = new Graph("Lonliness vs Overcrowding", lonlOverC, generation, maxLO, 0, borderW, borderH, color(0));
+  genGraph = new Graph("Births vs Deaths per Generation", genDeaths, genBirths, genSurv, generation, maxGDB, minGDB, borderW, borderH, color(255, 0, 0), color(0,255,0), color(255));
 }

@@ -169,7 +169,7 @@ class Board
  
   void set(int row, int col, boolean value)
   {
-    if (row >= 0 && row < rows && col >= 0 && col < cols && !cells[row][col])
+    if (row >= 0 && row < rows && col >= 0 && col < cols)
     {
       float x = col * cellHeight;
       float y = row * cellWidth;
